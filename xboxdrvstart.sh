@@ -138,13 +138,13 @@ dpad="--dpad-as-button \
       --ui-buttonmap du=KEY_UP,dd=KEY_DOWN,dl=KEY_LEFT,dr=KEY_RIGHT"
 
 ### Kill Command
-xboxkill="sudo killall xboxdrv > /dev/null 2>&1"
+function xboxkill {
+	sudo killall xboxdrv
+}
 
 ### Daemonize xboxdrv with background disown, saves 2MB runtime when sudo exits
-### NB: don't launch until joy2key.py exits otherwise it conflicts with the launcher menu
-### NB: the [] trick is because runcommand also uses pgrep and would match on us
 function daemonize {
-	sudo -b bash -c "sleep 5 ; while pgrep joy[2]key.py ; do sleep 1 ; done ; $* & disown %1"
+	sudo -b bash -c "$* & disown %1"
 }
 
 ### Execute the driver with the configuration you need
@@ -152,69 +152,69 @@ function daemonize {
 case $2 in
 
 	cannonball)
-		$xboxkill
+		xboxkill
 		daemonize $basicGPI $nograb $cannonball
 	;;
 
 	scummvm)
-		$xboxkill
+		xboxkill
 		daemonize $basicGPI $nograb $scummvm
 	;;
 	
 	sorr)
-		$xboxkill
+		xboxkill
 		daemonize $basicGPI $nograb $sorr
 	;;
 	
 	openbor|openbor-6xxx)
-		$xboxkill
+		xboxkill
 		daemonize $basicGPI $dpad $openbor
 	;;
 	
 	gpsp)
-		$xboxkill
+		xboxkill
 		daemonize $basicGPI $dpad $gpsp
 	;;
 	quake3)
-		$xboxkill
+		xboxkill
 		daemonize $basicGPI $dpad $quake3
 	;;
 	pico8|splore)
-		$xboxkill
+		xboxkill
 		daemonize $basicGPI $nograb $pico8
 	;;
 	mame4all)
-		$xboxkill
+		xboxkill
 		daemonize $basicGPI $nograb $dpad $mame4all
 	;;
 	daphne)
-		$xboxkill
+		xboxkill
 		daemonize $basicGPI $dpad $daphne
 	;;
 	pcsx-rearmed)
-		$xboxkill
+		xboxkill
 		daemonize $basicGPI $dpad $pcsxtayle
 	;;
 	eduke32)
-		$xboxkill
+		xboxkill
 		daemonize $basicGPI $dpad $eduke32tayle
 	;;
 	minecraft)
-		$xboxkill
+		xboxkill
 		daemonize $basicGPI $dpad $minecraft
 	;;
 	smw)
-		$xboxkill
+		xboxkill
 		daemonize $basicGPI $dpad $smw $nograb
 	;;
 	dosbox)
 		case $rom in
 			"test1.zip"|"test2.zip"|"test3.zip") # Configuration used only for these ROMs
-				$xboxkill
+				xboxkill
 				daemonize $basicGPI $dpad $dosbox
 			;;
 			*) # Configuration for every other ROMs on this emulator
-				$xboxkill
+				xboxkill
 				daemonize $basicGPI $dpad $dosbox
 			;;
 		esac
@@ -222,11 +222,11 @@ case $2 in
 	pifba)
 		case $rom in
 			"cybots.zip"|"dstlk.zip"|"hsf2.zip"|"hsf2j.zip"|"msh.zip"|"mshvsf.zip"|"mshvsfj.zip"|"mvsc.zip"|"mvscu.zip"|"nwarr.zip"|"sfa2.zip"|"sfa3.zip"|"sfa.zip"|"sfz3jr1.zip"|"sf2ce.zip"|"sf2hf.zip"|"sf2rb.zip"|"sf2.zip"|"sgemf.zip"|"ssf2t.zip"|"ssf2.zip"|"vhunt2.zip"|"vsav2.zip"|"vsav.zip"|"xmvsf.zip"|"xmcota.zip") # Configuration used only for these ROMs
-				$xboxkill
+				xboxkill
 				daemonize $basicGPI $dpad $fbacapcom
 			;;
 			*) # Configuration for every other ROMs on this emulator
-				$xboxkill
+				xboxkill
 				daemonize $basicGPI $nograb $pifba
 			;;
 		esac
